@@ -5,12 +5,11 @@
     var configured = ViewData["AdminConfigured"] as bool? ?? false;
 }
 
-<section class="page-header">
-    <h1>Admin Sign In</h1>
-    <p>Sign in to add, edit, or delete profiles.</p>
-</section>
-
 <div class="form-card login-card">
+    <span class="site-brand-mark login-mark" aria-hidden="true">D</span>
+    <h1>Admin Sign In</h1>
+    <p class="login-lead">Sign in to add, edit, or delete profiles.</p>
+
     @if (!configured)
     {
         <p class="text-danger">
@@ -34,7 +33,7 @@
         </div>
 
         <div class="form-actions">
-            <button type="submit" class="btn btn-primary">Sign In</button>
+            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
         </div>
     </form>
 </div>

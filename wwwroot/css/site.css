@@ -582,6 +582,23 @@ a:hover {
     border: 1px solid var(--border);
     border-radius: var(--radius);
     background: var(--surface);
+    box-shadow: var(--shadow-card);
+}
+
+input[type="file"].form-control {
+    padding: 0.4rem;
+}
+
+input[type="file"].form-control::file-selector-button {
+    margin-right: 0.85rem;
+    padding: 0.4rem 1rem;
+    border: none;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    color: var(--accent-strong);
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
 }
 
 .form-group {
@@ -668,7 +685,7 @@ textarea.form-control {
     padding: 1.15rem;
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
-    background: var(--bg-soft);
+    background: var(--surface-hover);
 }
 
 .project-item-header {
@@ -932,7 +949,61 @@ textarea.form-control {
 
 .login-card {
     max-width: 420px;
-    margin: 0 auto;
+    margin: 2rem auto 0;
+    padding: 2.25rem;
+    box-shadow: var(--shadow-card);
+}
+
+.login-card h1 {
+    margin: 1.25rem 0 0.35rem;
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+.login-lead {
+    margin: 0 0 1.5rem;
+    color: var(--text-muted);
+}
+
+.login-mark {
+    width: 44px;
+    height: 44px;
+}
+
+.btn-block {
+    width: 100%;
+}
+
+.login-card .form-actions {
+    justify-content: stretch;
+}
+
+.error-page {
+    max-width: 520px;
+    margin: 3rem auto 0;
+    text-align: center;
+}
+
+.error-page h1 {
+    margin: 0 0 0.5rem;
+    font-size: clamp(1.75rem, 4vw, 2.25rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+.error-page p {
+    margin: 0 0 1.5rem;
+    color: var(--text-muted);
+}
+
+.error-page .error-code {
+    margin: 0 0 0.5rem;
+    color: var(--accent);
+    font-size: 4rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.04em;
 }
 
 .current-image {
