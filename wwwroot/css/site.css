@@ -834,6 +834,10 @@ textarea.form-control {
         padding-top: 1rem;
     }
 
+    .hero-feature {
+        display: none;
+    }
+
     .profile-hero-body {
         grid-template-columns: 1fr;
         gap: 1rem;
