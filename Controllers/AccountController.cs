@@ -43,7 +43,7 @@ public class AccountController : Controller
 
         if (!_admin.Verify(model.Username, model.Password))
         {
-            _logger.LogWarning("Failed admin login for {Username} from {Ip}.", model.Username, HttpContext.Connection.RemoteIpAddress);
+            _logger.LogWarning("Failed admin login from {Ip}.", HttpContext.Connection.RemoteIpAddress);
             ModelState.AddModelError(string.Empty, "Invalid username or password.");
             return View(model);
         }
