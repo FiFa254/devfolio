@@ -513,6 +513,7 @@ textarea.form-control {
     border-color: var(--accent);
     box-shadow: 0 0 0 3px var(--accent-glow);
     background: var(--bg);
+    color: var(--text);
 }
 
 .text-danger {
