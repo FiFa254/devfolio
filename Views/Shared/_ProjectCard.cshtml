@@ -1,0 +1,20 @@
+@model ProfileProject
+<article class="project-card">
+    <div class="project-card-body">
+        <h3>@Model.ProjectName</h3>
+        <p>@(string.IsNullOrWhiteSpace(Model.Description) ? "No description." : Model.Description)</p>
+    </div>
+    <div class="project-card-footer">
+        @if (Model.Profile is not null)
+        {
+            <a class="project-owner" asp-controller="Home" asp-action="Profile" asp-route-id="@Model.Profile.Id">
+                <partial name="_Avatar" model="@((Model.Profile, "sm"))" />
+                @Model.Profile.FirstName @Model.Profile.LastName
+            </a>
+        }
+        @if (!string.IsNullOrWhiteSpace(Model.GithubLink))
+        {
+            <a class="btn btn-outline-primary btn-sm" href="@Model.GithubLink" target="_blank" rel="noopener noreferrer">View Project</a>
+        }
+    </div>
+</article>
