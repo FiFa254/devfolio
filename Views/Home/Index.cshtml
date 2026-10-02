@@ -4,11 +4,11 @@
     var projectCount = (int)(ViewBag.ProjectCount ?? 0);
     var recentProfiles = ViewBag.RecentProfiles as IEnumerable<ProfileSummary> ?? [];
     var recentProjects = ViewBag.RecentProjects as IEnumerable<DevFolio.Models.ProfileProject> ?? [];
+    var featured = recentProfiles.FirstOrDefault();
 }
 
 <section class="hero">
     <div>
-        <span class="hero-eyebrow">Portfolio Showcase</span>
         <h1>Discover talent.<br />Explore projects.</h1>
         <p class="hero-lead">
             A curated space to browse developer profiles and the projects they have built.
@@ -18,22 +18,21 @@
             <a class="btn btn-primary" asp-action="Profiles">Browse Profiles</a>
             <a class="btn btn-outline-secondary" asp-action="Projects">View Projects</a>
         </div>
+        <p class="hero-meta">@profileCount profiles &middot; @projectCount projects &middot; curated by admin</p>
     </div>
 
-    <div class="hero-visual">
-        <div class="hero-stat">
-            <span class="hero-stat-value">@profileCount</span>
-            <span class="hero-stat-label">Profiles in the showcase</span>
-        </div>
-        <div class="hero-stat">
-            <span class="hero-stat-value">@projectCount</span>
-            <span class="hero-stat-label">Projects shared</span>
-        </div>
-        <div class="hero-stat">
-            <span class="hero-stat-value">&#10003;</span>
-            <span class="hero-stat-label">Curated by admin</span>
-        </div>
-    </div>
+    @if (featured is not null)
+    {
+        <aside class="hero-feature" aria-label="Latest profile">
+            <partial name="_Avatar" model="@((featured.Profile, "xl"))" />
+            <h2>@featured.Profile.FirstName @featured.Profile.LastName</h2>
+            <p>@(string.IsNullOrWhiteSpace(featured.Profile.Bio) ? "No bio yet." : featured.Profile.Bio)</p>
+            <div class="hero-feature-footer">
+                <span>@featured.ProjectCount project(s)</span>
+                <a class="btn btn-light btn-sm" asp-action="Profile" asp-route-id="@featured.Profile.Id">View profile &rarr;</a>
+            </div>
+        </aside>
+    }
 </section>
 
 @if (recentProfiles.Any())
@@ -44,26 +43,9 @@
             <a class="section-link" asp-action="Profiles">View all &rarr;</a>
         </div>
         <div class="card-grid">
-            @foreach (var (profile, profileProjectCount) in recentProfiles)
+            @foreach (var summary in recentProfiles)
             {
-                <article class="profile-card">
-                    @if (!string.IsNullOrWhiteSpace(profile.ProfileImagePath))
-                    {
-                        <img src="@profile.ProfileImagePath" alt="@profile.FirstName @profile.LastName" class="profile-card-image" />
-                    }
-                    else
-                    {
-                        <div class="card-placeholder">No photo</div>
-                    }
-                    <div class="profile-card-body">
-                        <h3>@profile.FirstName @profile.LastName</h3>
-                        <p>@(string.IsNullOrWhiteSpace(profile.Bio) ? "No bio yet." : profile.Bio)</p>
-                        <div class="profile-card-meta">
-                            <span class="badge">@profileProjectCount project(s)</span>
-                            <a asp-action="Profile" asp-route-id="@profile.Id">View profile &rarr;</a>
-                        </div>
-                    </div>
-                </article>
+                <partial name="_ProfileCard" model="summary" />
             }
         </div>
     </section>
@@ -79,28 +61,7 @@
         <div class="card-grid">
             @foreach (var project in recentProjects)
             {
-                <article class="project-card">
-                    @if (!string.IsNullOrWhiteSpace(project.Profile?.ProfileImagePath))
-                    {
-                        <img src="@project.Profile.ProfileImagePath" alt="@project.ProjectName" class="project-card-image" />
-                    }
-                    else
-                    {
-                        <div class="card-placeholder">@project.ProjectName</div>
-                    }
-                    <div class="project-card-body">
-                        <h3>@project.ProjectName</h3>
-                        <p>@(string.IsNullOrWhiteSpace(project.Description) ? "No description." : project.Description)</p>
-                        @if (project.Profile is not null)
-                        {
-                            <p class="project-owner">By @project.Profile.FirstName @project.Profile.LastName</p>
-                        }
-                        @if (!string.IsNullOrWhiteSpace(project.GithubLink))
-                        {
-                            <a class="btn btn-outline-primary btn-sm mt-2" href="@project.GithubLink" target="_blank" rel="noopener noreferrer">View Project</a>
-                        }
-                    </div>
-                </article>
+                <partial name="_ProjectCard" model="project" />
             }
         </div>
     </section>

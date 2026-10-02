@@ -1,0 +1,12 @@
+@model (Profile Profile, string Size)
+@{
+    var fullName = $"{Model.Profile.FirstName} {Model.Profile.LastName}";
+}
+@if (!string.IsNullOrWhiteSpace(Model.Profile.ProfileImagePath))
+{
+    <img src="@Model.Profile.ProfileImagePath" alt="@fullName" class="avatar avatar-@Model.Size" loading="lazy" />
+}
+else
+{
+    <span class="avatar avatar-@Model.Size avatar-initials" role="img" aria-label="@fullName">@string.Concat(Model.Profile.FirstName.Take(1).Concat(Model.Profile.LastName.Take(1)))</span>
+}

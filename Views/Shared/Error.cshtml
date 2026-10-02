@@ -10,16 +10,18 @@
     ViewData["Title"] = title;
 }
 
-<section class="page-header">
+<section class="error-page">
+    @if (statusCode >= 400)
+    {
+        <p class="error-code">@statusCode</p>
+    }
     <h1>@title</h1>
     <p>@message</p>
-</section>
 
-@if (Model?.ShowRequestId == true)
-{
-    <p class="text-muted-soft">Request ID: <code>@Model.RequestId</code></p>
-}
+    @if (Model?.ShowRequestId == true)
+    {
+        <p class="text-muted-soft">Request ID: <code>@Model.RequestId</code></p>
+    }
 
-<p class="mt-4">
     <a class="btn btn-primary" asp-controller="Home" asp-action="Index">Back to Home</a>
-</p>
+</section>

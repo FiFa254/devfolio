@@ -25,25 +25,7 @@ else
     <div class="card-grid">
         @foreach (var item in Model.Items)
         {
-            var profile = item.Profile;
-            <article class="profile-card">
-                @if (!string.IsNullOrWhiteSpace(profile.ProfileImagePath))
-                {
-                    <img src="@profile.ProfileImagePath" alt="@profile.FirstName @profile.LastName" class="profile-card-image" loading="lazy" />
-                }
-                else
-                {
-                    <div class="card-placeholder">@profile.FirstName @profile.LastName</div>
-                }
-                <div class="profile-card-body">
-                    <h3>@profile.FirstName @profile.LastName</h3>
-                    <p>@(string.IsNullOrWhiteSpace(profile.Bio) ? "No bio provided." : profile.Bio)</p>
-                    <div class="profile-card-meta">
-                        <span class="badge">@item.ProjectCount project(s)</span>
-                        <a asp-action="Profile" asp-route-id="@profile.Id">View profile &rarr;</a>
-                    </div>
-                </div>
-            </article>
+            <partial name="_ProfileCard" model="item" />
         }
     </div>
 

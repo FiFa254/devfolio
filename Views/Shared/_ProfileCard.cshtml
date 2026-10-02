@@ -1,0 +1,15 @@
+@model ProfileSummary
+@{
+    var profile = Model.Profile;
+}
+<article class="profile-card">
+    <div class="profile-card-top">
+        <partial name="_Avatar" model="@((profile, "lg"))" />
+        <span class="badge">@Model.ProjectCount project(s)</span>
+    </div>
+    <div class="profile-card-body">
+        <h3>@profile.FirstName @profile.LastName</h3>
+        <p>@(string.IsNullOrWhiteSpace(profile.Bio) ? "No bio yet." : profile.Bio)</p>
+    </div>
+    <a class="profile-card-link" asp-controller="Home" asp-action="Profile" asp-route-id="@profile.Id">View profile &rarr;</a>
+</article>
