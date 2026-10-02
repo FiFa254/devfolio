@@ -1,15 +1,18 @@
 @model ProfileProject
+@{
+    var showOwner = Model.Profile is not null && ViewData["HideOwner"] is not true;
+}
 <article class="project-card">
     <div class="project-card-body">
         <h3>@Model.ProjectName</h3>
         <p>@(string.IsNullOrWhiteSpace(Model.Description) ? "No description." : Model.Description)</p>
     </div>
     <div class="project-card-footer">
-        @if (Model.Profile is not null)
+        @if (showOwner)
         {
-            <a class="project-owner" asp-controller="Home" asp-action="Profile" asp-route-id="@Model.Profile.Id">
-                <partial name="_Avatar" model="@((Model.Profile, "sm"))" />
-                @Model.Profile.FirstName @Model.Profile.LastName
+            <a class="project-owner" asp-controller="Home" asp-action="Profile" asp-route-id="@Model.Profile!.Id">
+                <partial name="_Avatar" model="@((Model.Profile!, "sm"))" />
+                @Model.Profile!.FirstName @Model.Profile!.LastName
             </a>
         }
         @if (!string.IsNullOrWhiteSpace(Model.GithubLink))

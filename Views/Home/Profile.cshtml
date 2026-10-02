@@ -2,80 +2,53 @@
 
 @{
     ViewData["Title"] = $"{Model.FirstName} {Model.LastName}";
+    ViewData["HideOwner"] = true;
 }
 
-<section class="page-header">
-    <h1>@Model.FirstName @Model.LastName</h1>
-    <p>Profile details and projects.</p>
-</section>
-
-<div class="profile-detail">
-    <aside class="profile-detail-sidebar">
-        @if (!string.IsNullOrWhiteSpace(Model.ProfileImagePath))
-        {
-            <img src="@Model.ProfileImagePath" alt="@Model.FirstName @Model.LastName" class="profile-detail-image" />
-        }
-        else
-        {
-            <div class="profile-detail-placeholder">No photo</div>
-        }
-    </aside>
-
-    <div class="profile-detail-info">
-        <a class="btn btn-primary btn-sm profile-contact" asp-action="Contact" asp-route-id="@Model.Id" rel="nofollow">Contact</a>
-
-        @if (!string.IsNullOrWhiteSpace(Model.Bio))
-        {
-            <p class="profile-detail-bio">@Model.Bio</p>
-        }
-        else
-        {
-            <p class="profile-detail-bio">No bio provided.</p>
-        }
-
-        @if (User.Identity?.IsAuthenticated == true)
-        {
-            <div class="admin-actions">
-                <a class="btn btn-outline-primary btn-sm" asp-action="EditProfile" asp-route-id="@Model.Id">Edit</a>
-                <form asp-action="DeleteProfile" asp-route-id="@Model.Id" method="post"
-                      data-confirm="Delete this profile and all of its projects? This cannot be undone.">
-                    <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
-                </form>
-            </div>
-        }
-
-        <div class="section-header">
-            <h2>Projects (@Model.Projects.Count)</h2>
-        </div>
-
-        @if (!Model.Projects.Any())
-        {
-            <div class="empty-state">
-                <p>No projects listed for this profile.</p>
-            </div>
-        }
-        else
-        {
-            <div class="card-grid">
-                @foreach (var project in Model.Projects)
-                {
-                    <article class="project-card">
-                        <div class="card-placeholder">@project.ProjectName</div>
-                        <div class="project-card-body">
-                            <h3>@project.ProjectName</h3>
-                            <p>@(string.IsNullOrWhiteSpace(project.Description) ? "No description." : project.Description)</p>
-                            @if (!string.IsNullOrWhiteSpace(project.GithubLink))
-                            {
-                                <a class="btn btn-outline-primary btn-sm mt-2" href="@project.GithubLink" target="_blank" rel="noopener noreferrer">View Project</a>
-                            }
-                        </div>
-                    </article>
-                }
-            </div>
-        }
-    </div>
-</div>
-
-<p class="mt-4">
+<p class="back-link">
     <a asp-action="Profiles">&larr; Back to Profiles</a>
 </p>
+
+<section class="profile-hero">
+    <div class="profile-hero-banner"></div>
+    <div class="profile-hero-body">
+        <partial name="_Avatar" model="@((Model, "xxl"))" />
+        <div class="profile-hero-info">
+            <h1>@Model.FirstName @Model.LastName</h1>
+            <p class="profile-detail-bio">@(string.IsNullOrWhiteSpace(Model.Bio) ? "No bio provided." : Model.Bio)</p>
+        </div>
+        <div class="profile-hero-actions">
+            <a class="btn btn-primary" asp-action="Contact" asp-route-id="@Model.Id" rel="nofollow">Contact</a>
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <a class="btn btn-outline-secondary" asp-action="EditProfile" asp-route-id="@Model.Id">Edit</a>
+                <form asp-action="DeleteProfile" asp-route-id="@Model.Id" method="post"
+                      data-confirm="Delete this profile and all of its projects? This cannot be undone.">
+                    <button type="submit" class="btn btn-outline-danger">Delete</button>
+                </form>
+            }
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-header">
+        <h2>Projects (@Model.Projects.Count)</h2>
+    </div>
+
+    @if (!Model.Projects.Any())
+    {
+        <div class="empty-state">
+            <p>No projects listed for this profile.</p>
+        </div>
+    }
+    else
+    {
+        <div class="card-grid">
+            @foreach (var project in Model.Projects)
+            {
+                <partial name="_ProjectCard" model="project" />
+            }
+        </div>
+    }
+</section>
